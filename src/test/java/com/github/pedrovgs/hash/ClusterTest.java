@@ -1,9 +1,11 @@
 package com.github.pedrovgs.hash;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -13,10 +15,22 @@ import java.util.stream.IntStream;
  */
 public class ClusterTest {
     private static final Logger log = LoggerFactory.getLogger(ClusterTest.class);
-    private static int DATA_COUNT = 100;
+    private static int DATA_COUNT = 100000;
     private static String PRE_KEY = "key";
-    private Cluster cluster = new NormalHashCluster();
+//        private Cluster cluster = new NormalHashCluster();
+    private Cluster cluster = new ConsistencyHashCluster();
 
+    public ClusterTest() throws NoSuchAlgorithmException {
+    }
+
+
+    @Before
+    public void init() {
+        cluster.addNode(new Node("c1", "192.168.0.1"));
+        cluster.addNode(new Node("c2", "192.168.0.2"));
+        cluster.addNode(new Node("c3", "192.168.0.3"));
+        cluster.addNode(new Node("c4", "192.168.0.4"));
+    }
 
     @Test
     public void testHash() {
@@ -26,15 +40,12 @@ public class ClusterTest {
     }
 
     @Test
-    public void testNormalHash() {
-        cluster.addNode(new Node("c1", "192.168.0.1"));
-        cluster.addNode(new Node("c2", "192.168.0.2"));
-        cluster.addNode(new Node("c3", "192.168.0.3"));
-        cluster.addNode(new Node("c4", "192.168.0.4"));
+    public void testHashCount() {
 
         IntStream.range(0, DATA_COUNT)
                 .forEach(index -> {
                     Node node = cluster.get(PRE_KEY + index);
+//                    log.info("node:'{}' index:'{}'", node, index);
                     node.put(PRE_KEY + index, "Test Data");
                 });
 

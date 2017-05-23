@@ -4,6 +4,8 @@ package com.github.pedrovgs.hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.NoSuchAlgorithmException;
+
 /**
  * Created by tonydeng on 2017/5/22.
  */
@@ -11,7 +13,7 @@ public class NormalHashCluster extends Cluster {
 
     private static final Logger log = LoggerFactory.getLogger(NormalHashCluster.class);
 
-    public NormalHashCluster() {
+    public NormalHashCluster() throws NoSuchAlgorithmException {
         super();
     }
 
