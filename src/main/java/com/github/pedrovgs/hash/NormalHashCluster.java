@@ -1,29 +1,26 @@
 package com.github.pedrovgs.hash;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.security.NoSuchAlgorithmException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by tonydeng on 2017/5/22.
  */
+@Slf4j
 public class NormalHashCluster extends Cluster {
 
-    private static final Logger log = LoggerFactory.getLogger(NormalHashCluster.class);
 
-    public NormalHashCluster() throws NoSuchAlgorithmException {
+    public NormalHashCluster() {
         super();
     }
 
     @Override
-    public void addNode(Node node) {
+    public void add(Node node) {
         this.nodes.add(node);
     }
 
     @Override
-    public void removeNode(Node node) {
+    public void remove(Node node) {
         this.nodes.removeIf(o ->
                 o.getIp().equals(node.getIp()) ||
                         o.getDomain().equals(node.getDomain())
